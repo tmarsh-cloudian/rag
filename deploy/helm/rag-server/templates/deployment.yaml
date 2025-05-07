@@ -42,7 +42,4 @@ spec:
             {{- end }}
             {{- end }}
           resources:
-            limits:
-              memory: "5Gi"
-            requests:
-              memory: "512Mi"
+{{ toYaml .Values.resources | indent 12 }}
