@@ -23,7 +23,8 @@ from typing import (
     List,
     Dict,
     Union,
-    Any
+    Any,
+    Tuple
 )
 import logging
 from uuid import uuid4
@@ -106,11 +107,13 @@ class NVIngestIngestor(BaseIngestor):
             finally:
                 connections.disconnect(connection_alias)
 
-            failures = await self._ingest_documents_in_chunks_nvingest(
+            results, failures = await self._ingest_documents_in_chunks_nvingest(
                 filepaths=filepaths,
                 **kwargs
             )
-            failures_filepaths = [failure[0] for failure in failures]
+            # Get failed documents
+            failed_documents = await self.get_failed_documents(failures, results, filepaths)
+            failures_filepaths = [failed_document.get("document_name") for failed_document in failed_documents]
 
             # Generate response dictionary
             uploaded_documents = [
@@ -119,36 +122,8 @@ class NVIngestIngestor(BaseIngestor):
                     "document_name": os.path.basename(filepath),
                     "size_bytes": os.path.getsize(filepath)
                 }
-                for filepath in filepaths if filepath not in failures_filepaths
+                for filepath in filepaths if os.path.basename(filepath) not in failures_filepaths
             ]
-
-            # Generate failed documents
-            failed_documents = []
-            for failure in failures:
-                error_message = ""
-                for annotation_id in failure[1].keys():
-                    if failure[1].get(annotation_id).get("task_result") == "FAILURE":
-                        error_message = failure[1].get(annotation_id).get("message")
-                        break
-                failed_documents.append(
-                    {
-                        "document_name": os.path.basename(failure[0]),
-                        "error_message": error_message
-                    }
-                )
-            
-            # Add non-supported files to failed documents
-            for filepath in await self.get_non_supported_files(filepaths):
-                failed_documents.append(
-                    {
-                        "document_name": os.path.basename(filepath),
-                        "error_message": "Unsupported file type"
-                    }
-                )
-            
-            if failed_documents:
-                logger.error("Ingestion failed for %d document(s)", len(failed_documents))
-                logger.debug("Failed documents details: %s", json.dumps(failed_documents, indent=4))
 
              # Get current timestamp in ISO format
             timestamp = datetime.utcnow().isoformat()
@@ -491,7 +466,7 @@ class NVIngestIngestor(BaseIngestor):
         self,
         filepaths: List[str],
         **kwargs
-    ) -> None:
+    ) -> Tuple[List[List[Dict[str, Union[str, dict]]]], List[Dict[str, Any]]]:
         """
         Wrapper function to ingest documents in chunks using NV-ingest
 
@@ -508,8 +483,9 @@ class NVIngestIngestor(BaseIngestor):
                 filepaths=filepaths,
                 **kwargs
             )
-            return failures
+            return results, failures
         else:
+            all_results = []
             all_failures = []
             for i in range(0, len(filepaths), NV_INGEST_FILES_PER_BATCH):
                 sub_filepaths = filepaths[i:i+NV_INGEST_FILES_PER_BATCH]
@@ -518,18 +494,19 @@ class NVIngestIngestor(BaseIngestor):
                     f"Processing batch {i//NV_INGEST_FILES_PER_BATCH + 1} of {len(filepaths)//NV_INGEST_FILES_PER_BATCH + 1} - "
                     f"Documents in current batch: {len(sub_filepaths)} ==="
                 )
-                failures = await self._nv_ingest_ingestion(
+                results, failures = await self._nv_ingest_ingestion(
                     filepaths=sub_filepaths,
                     **kwargs
                 )
+                all_results.extend(results)
                 all_failures.extend(failures)
-            return all_failures
+            return all_results, all_failures
     
     async def _nv_ingest_ingestion(
         self,
         filepaths: List[str],
         **kwargs
-    ) -> None:
+    ) -> Tuple[List[List[Dict[str, Union[str, dict]]]], List[Dict[str, Any]]]:
         """
         This methods performs following steps:
         - Perform extraction and splitting using NV-ingest ingestor
@@ -584,7 +561,73 @@ class NVIngestIngestor(BaseIngestor):
             )
             logger.debug("Vector DB upload complete to: %s in collection %s", kwargs.get("vdb_endpoint"), kwargs.get("collection_name"))
 
-        return failures
+        return results, failures
+
+    async def get_failed_documents(
+        self,
+        failures: List[Dict[str, Any]],
+        results: List[List[Dict[str, Union[str, dict]]]],
+        filepaths: List[str]
+    ) -> List[Dict[str, Any]]:
+        """
+        Get failed documents
+
+        Arguments:
+            - failures: List[Dict[str, Any]] - List of failures
+            - filepaths: List[str] - List of filepaths
+            - results: List[List[Dict[str, Union[str, dict]]]] - List of results
+
+        Returns:
+            - List[Dict[str, Any]] - List of failed documents
+        """
+        failed_documents = []
+        failed_documents_filepaths = set()
+        for failure in failures:
+            error_message = ""
+            for annotation_id in failure[1].keys():
+                if failure[1].get(annotation_id).get("task_result") == "FAILURE":
+                    error_message = failure[1].get(annotation_id).get("message")
+                    break
+            failed_documents.append(
+                {
+                    "document_name": os.path.basename(failure[0]),
+                    "error_message": error_message
+                }
+            )
+            failed_documents_filepaths.add(failure[0])
+        
+        # Add non-supported files to failed documents
+        for filepath in await self.get_non_supported_files(filepaths):
+            if filepath not in failed_documents_filepaths:
+                failed_documents.append(
+                    {
+                        "document_name": os.path.basename(filepath),
+                        "error_message": "Unsupported file type"
+                    }
+                )
+                failed_documents_filepaths.add(filepath)
+        
+        # Add document to failed documents if it is not in the results
+        filepaths_in_results = set()
+        for result in results:
+            for result_element in result:
+                filepaths_in_results.add(result_element.get("metadata").get("source_metadata").get("source_name"))
+                break # Only add the first document for each result
+        for filepath in filepaths:
+            if filepath not in filepaths_in_results and filepath not in failed_documents_filepaths:
+                failed_documents.append(
+                    {
+                        "document_name": os.path.basename(filepath),
+                        "error_message": "Ingestion did not complete successfully"
+                    }
+                )
+                failed_documents_filepaths.add(filepath)
+
+        if failed_documents:
+            logger.error("Ingestion failed for %d document(s)", len(failed_documents))
+            logger.debug("Failed documents details: %s", json.dumps(failed_documents, indent=4))
+        
+        return failed_documents
     
     @staticmethod
     async def get_non_supported_files(filepaths: List[str]) -> List[str]:
