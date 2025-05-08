@@ -533,7 +533,7 @@ def get_embedding_model(model: str, url: str) -> Embeddings:
 
 
 @lru_cache
-def get_ranking_model(model="", url="", top_n=4) -> BaseDocumentCompressor:
+def _get_ranking_model(model="", url="", top_n=4) -> BaseDocumentCompressor:
     """Create the ranking model.
 
     Returns:
@@ -562,6 +562,15 @@ def get_ranking_model(model="", url="", top_n=4) -> BaseDocumentCompressor:
         logger.error("An error occurred while initializing ranking_model: %s", e)
     return None
 
+
+def get_ranking_model(model="", url="", top_n=4) -> BaseDocumentCompressor:
+    """Create the ranking model."""
+    ranker = _get_ranking_model(model, url, top_n)
+    if ranker is None:
+        logger.warning("Cached ranking model was None — clearing cache and retrying.")
+        _get_ranking_model.cache_clear()
+        ranker = _get_ranking_model(model, url, top_n)
+    return ranker
 
 def get_text_splitter() -> RecursiveCharacterTextSplitter:
     """Return the token text splitter instance from langchain."""
