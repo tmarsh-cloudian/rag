@@ -127,7 +127,7 @@ kube-prometheus-stack:
 
 ## Out of Memory (OOM) Issues During Ingestion:
 
-If you encounter Out of Memory (OOM) errors during the ingestion process, enabling chunk-based ingestion can help manage memory usage more effectively. This can be done by setting the `ENABLE_NV_INGEST_BATCH_MODE` flag to `True`. Additionally you may tweak the value of `NV_INGEST_FILES_PER_BATCH` for optimized memory usage
+If you encounter Out of Memory (OOM) errors during the ingestion process, enabling batch-based ingestion can help manage memory usage more effectively. This can be done by setting the `ENABLE_NV_INGEST_BATCH_MODE` flag to `True`. Additionally you may tweak the value of `NV_INGEST_FILES_PER_BATCH` for optimized memory usage
 
 ### For Docker Compose Deployment
 
@@ -156,3 +156,19 @@ If you encounter Out of Memory (OOM) errors during the ingestion process, enabli
    ```bash
    helm upgrade rag https://helm.ngc.nvidia.com/nvstaging/blueprint/charts/nvidia-blueprint-rag-v2.1.0.tgz -f rag-server/values.yaml -n rag
    ```
+
+## Missing Documents in Milvus Vector Database
+
+If you notice that some documents are missing from your ingested dataset in Milvus, try the following:
+
+1. Ensure batch mode ingestion is enabled by setting:
+   ```bash
+   export ENABLE_NV_INGEST_BATCH_MODE=True
+   ```
+
+2. If batch mode is already enabled but documents are still missing, try reducing the batch size by lowering the value of:
+   ```bash
+   export NV_INGEST_FILES_PER_BATCH=50  # Default is 128
+   ```
+
+This helps prevent memory issues during ingestion that could cause documents to be dropped. The optimal batch size will depend on your available system resources and document characteristics.
