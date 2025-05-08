@@ -53,7 +53,7 @@ document_embedder = get_embedding_model(model=settings.embeddings.model_name, ur
 ranker = get_ranking_model(model=settings.ranking.model_name, url=settings.ranking.server_url, top_n=settings.retriever.top_k)
 query_rewriter_llm_config = {"temperature": 0.7, "top_p": 0.2, "max_tokens": 1024}
 logger.info("Query rewriter llm config: model name %s, url %s, config %s", settings.query_rewriter.model_name, settings.query_rewriter.server_url, query_rewriter_llm_config)
-query_rewriter_llm = get_llm(model=settings.query_rewriter.model_name, url=settings.query_rewriter.server_url, **query_rewriter_llm_config)
+query_rewriter_llm = get_llm(model=settings.query_rewriter.model_name, llm_endpoint=settings.query_rewriter.server_url, **query_rewriter_llm_config)
 prompts = get_prompts()
 vdb_top_k = int(os.environ.get("VECTOR_DB_TOPK", 40))
 
