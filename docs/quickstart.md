@@ -99,10 +99,10 @@ Use the following procedure to start all containers needed for this blueprint. T
    ```
 
 4. Start all required NIMs.
-   
-   Before running the command please ensure the GPU allocation is done appropriately in the deploy/compose/.env. You might need to override them    
-   for the hardware you are deploying this blueprint on. The default assumes you are deploying this on a 2XH100 environment. 
-   
+
+   Before running the command please ensure the GPU allocation is done appropriately in the deploy/compose/.env. You might need to override them
+   for the hardware you are deploying this blueprint on. The default assumes you are deploying this on a 2XH100 environment.
+
    ```bash
    USERID=$(id -u) docker compose -f deploy/compose/nims.yaml up -d
    ```
@@ -876,11 +876,11 @@ Follow the cells in the notebook to ingest the PDF files from the data/dataset f
 - [Support Multi-Turn Conversations](multiturn.md)
 - [Enable NeMo Guardrails for Content Safety](nemo-guardrails.md)
 - [Troubleshoot NVIDIA RAG Blueprint](troubleshooting.md)
-- [Understand latency breakdowns and debug errors using observability services](./observability.md)
-- [Enable Self-Reflection to improve accuracy](docs/self-reflection.md)
-- [Enable Query rewriting to Improve accuracy of Multi-Turn Conversations](docs/query_rewriter.md)
-- [Enable Image captioning support for ingested documents](docs/image_captioning.md)
-- [Enable hybrid search for milvus](docs/hybrid_search.md)
-- [Enable low latency, low compute text only pipeline](docs/text_only_ingest.md)
-- Explore [best practices for enhancing accuracy or latency](./docs/accuracy_perf.md)
-- Explore [migration guide](./docs/migration_guide.md) if you are migrating from rag v1.0.0 to this version.
+- [Understand latency breakdowns and debug errors using observability services](observability.md)
+- [Enable Self-Reflection to improve accuracy](self-reflection.md)
+- [Enable Query rewriting to Improve accuracy of Multi-Turn Conversations](query_rewriter.md)
+- [Enable Image captioning support for ingested documents](image_captioning.md)
+- [Enable hybrid search for milvus](hybrid_search.md)
+- [Enable low latency, low compute text only pipeline](text_only_ingest.md)
+- Explore [best practices for enhancing accuracy or latency](accuracy_perf.md)
+- Explore [migration guide](migration_guide.md) if you are migrating from rag v1.0.0 to this version.
