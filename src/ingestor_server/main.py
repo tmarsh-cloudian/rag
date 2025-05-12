@@ -479,7 +479,7 @@ class NVIngestIngestor(BaseIngestor):
                 "== Performing ingestion in single batch for collection_name: %s with %d files ==",
                 kwargs.get("collection_name"), len(filepaths)
             )
-            failures = await self._nv_ingest_ingestion(
+            results, failures = await self._nv_ingest_ingestion(
                 filepaths=filepaths,
                 **kwargs
             )
