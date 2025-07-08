@@ -15,7 +15,7 @@ Once you have followed [steps in quick start guide](./quickstart.md#deploy-with-
 
 
 ## Using on-prem model (Recommended)
-1. Deploy the `llama3.1-8b-instruct` model on-prem. You need a H100 or A100 GPU to deploy this model.
+1. Deploy the `llama3.1-8b-instruct` model on-prem. You need a H100, B200 or A100 GPU to deploy this model.
    ```bash
    export LLM_8B_MS_GPU_ID=<AVAILABLE_GPU_ID>
    USERID=$(id -u) docker compose -f deploy/compose/nims.yaml --profile llama-8b up -d
@@ -145,7 +145,7 @@ To deploy the `llama-3.1-8b-instruct` model in a separate namespace (`query-rewr
 Follow the steps from [Quick Start Helm Deployment](./quickstart.md#deploy-with-helm-chart) and use the following command to deploy the chart.
 
 ```bash
-helm install rag -n rag https://helm.ngc.nvidia.com/nvidia/blueprint/charts/nvidia-blueprint-rag-v2.1.0.tgz \
+helm install rag -n rag https://helm.ngc.nvidia.com/nvidia/blueprint/charts/nvidia-blueprint-rag-v2.2.0.tgz \
    --username '$oauthtoken' \
    --password "${NGC_API_KEY}" \
    --set imagePullSecret.password=$NGC_API_KEY \
