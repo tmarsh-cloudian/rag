@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
 
+## [2.2.1] - 2025-07-22
+
+This minor patch release updates to latest nvclient client version 25.6.3 to fix breaking changes introduced due to pypdfium.
+Details mentioned here
+https://github.com/NVIDIA/nv-ingest/releases/tag/25.6.3
+
+
 ## [2.2.0] - 2025-07-08
 
 This release adds B200 platform support, a native Python API, and major enhancements for multimodal and metadata features. It also improves deployment flexibility and customization across the RAG blueprint.
