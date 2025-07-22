@@ -1622,7 +1622,7 @@ wheels = [
 
 [[package]]
 name = "nv-ingest-client"
-version = "25.6.2"
+version = "25.6.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "azure-storage-blob" },
@@ -1646,9 +1646,8 @@ dependencies = [
     { name = "setuptools" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/54/03/a0c380fd4201cb391e9d985135951176c97f7831fe504c0aefb08ce1849e/nv_ingest_client-25.6.2.tar.gz", hash = "sha256:88f9652957955e6f256f4135fe37f925a3fbf18778c7fcd7ab5de0288a74cab2", size = 91960, upload-time = "2025-06-17T01:28:11.324Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/3e/627e4dd466922b98c31164e783452aa3b8deb74296e772031bba5975349f/nv_ingest_client-25.6.2-py3-none-any.whl", hash = "sha256:83f39a3b86a7c606a423ce84705bbd3a0f203d8a01685eb8fd2da1c4e715ca10", size = 106037, upload-time = "2025-06-17T01:28:09.063Z" },
+    { url = "https://files.pythonhosted.org/packages/a1/f5/cc12e1db6355d5286307ac86ef81b92eaa8e949cb6063a3749d92b25185d/nv_ingest_client-25.6.3-py3-none-any.whl", hash = "sha256:15d87187f871ba785dae21399fd55439b885fd7697f8f9bc2ad7d9fb0b377164", size = 106035, upload-time = "2025-07-22T00:13:18.646Z" },
 ]
 
 [[package]]
@@ -1867,7 +1866,7 @@ requires-dist = [
     { name = "langchain-openai", marker = "extra == 'rag'", specifier = "==0.2.8" },
     { name = "minio", specifier = "==7.2.15" },
     { name = "nv-ingest-api", marker = "extra == 'ingest'", specifier = "==25.6.2" },
-    { name = "nv-ingest-client", marker = "extra == 'ingest'", specifier = "==25.6.2" },
+    { name = "nv-ingest-client", marker = "extra == 'ingest'", specifier = "==25.6.3" },
     { name = "nvidia-rag", extras = ["ingest", "rag"], marker = "extra == 'all'", virtual = "." },
     { name = "opentelemetry-api", marker = "extra == 'ingest'", specifier = "==1.29.0" },
     { name = "opentelemetry-api", marker = "extra == 'rag'", specifier = "==1.29.0" },
