@@ -1,6 +1,6 @@
 [project]
 name = "nvidia_rag"
-version = "2.2.0"
+version = "2.2.1"
 description = "This blueprint serves as a reference solution for a foundational Retrieval Augmented Generation (RAG) pipeline."
 readme = "README.md"
 license = "Apache-2.0"
