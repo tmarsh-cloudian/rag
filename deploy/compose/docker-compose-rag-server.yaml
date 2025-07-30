@@ -22,9 +22,9 @@ services:
       PROMPT_CONFIG_FILE: ${PROMPT_CONFIG_FILE:-/prompt.yaml}
 
       ##===MINIO specific configurations which is used to store the multimodal base64 content===
-      MINIO_ENDPOINT: "minio:9010"
-      MINIO_ACCESSKEY: "minioadmin"
-      MINIO_SECRETKEY: "minioadmin"
+      MINIO_ENDPOINT: "${HYPERSTORE_IP}:80"
+      MINIO_ACCESSKEY: "${AWS_ACCESS_KEY_ID}"
+      MINIO_SECRETKEY: "${AWS_SECRET_ACCESS_KEY}"
 
       ##===Vector DB specific configurations===
       # URL on which vectorstore is hosted

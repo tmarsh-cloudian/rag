@@ -38,9 +38,9 @@ services:
       COLLECTION_NAME: ${COLLECTION_NAME:-multimodal_data}
 
       ##===MINIO specific configurations===
-      MINIO_ENDPOINT: "minio:9010"
-      MINIO_ACCESSKEY: "minioadmin"
-      MINIO_SECRETKEY: "minioadmin"
+      MINIO_ENDPOINT: "${HYPERSTORE_IP}:80"
+      MINIO_ACCESSKEY: "${AWS_ACCESS_KEY_ID}"
+      MINIO_SECRETKEY: "${AWS_SECRET_ACCESS_KEY}"
 
       NGC_API_KEY: ${NGC_API_KEY:?"NGC_API_KEY is required"}
       NVIDIA_API_KEY: ${NGC_API_KEY:?"NGC_API_KEY is required"}
@@ -92,6 +92,7 @@ services:
       REDIS_DB: ${REDIS_DB:-0}
 
       # Bulk upload to MinIO
+      #ENABLE_MINIO_BULK_UPLOAD: ${ENABLE_MINIO_BULK_UPLOAD:-False}
       ENABLE_MINIO_BULK_UPLOAD: ${ENABLE_MINIO_BULK_UPLOAD:-True}
       TEMP_DIR: ${TEMP_DIR:-/tmp-data}
 
