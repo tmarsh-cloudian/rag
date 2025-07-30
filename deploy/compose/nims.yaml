@@ -1,8 +1,8 @@
 services:
   nim-llm:
     container_name: nim-llm-ms
-    #image: nvcr.io/nim/nvidia/llama-3.3-nemotron-super-49b-v1:1.8.5
-    image: nvcr.io/nim/nvidia/llama3.1-nemotron-nano-4b-v1.1:1.8.5
+    image: nvcr.io/nim/nvidia/llama-3.3-nemotron-super-49b-v1:1.8.5
+    #image: nvcr.io/nim/nvidia/llama3.1-nemotron-nano-4b-v1.1:1.8.5
     volumes:
     - ${MODEL_DIRECTORY:-./}:/opt/nim/.cache
     user: "${USERID}"
