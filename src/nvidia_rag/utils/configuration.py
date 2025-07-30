@@ -228,7 +228,10 @@ class LLMConfig(ConfigWizard):
     )
     model_name: str = configfield(
         "model_name",
-        default="nvidia/llama3.1-nemotron-nano-4b-v1.1",
+        env=False,
+        env_name="TMARSH_MODEL_NAME",
+        default="nvidia/llama-3.3-nemotron-super-49b-v1",
+        #default="nvidia/llama3.1-nemotron-nano-4b-v1.1",
         help_txt="The name of the hosted model.",
     )
     model_engine: str = configfield(
