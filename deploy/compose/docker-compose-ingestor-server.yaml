@@ -17,6 +17,8 @@ services:
 
     # Common customizations to the pipeline can be controlled using env variables
     environment:
+      TMARSH_MODEL_NAME: ${LLM_NAME}
+
       # Path to example directory relative to root
       EXAMPLE_PATH: 'src/nvidia_rag/ingestor_server'
 
