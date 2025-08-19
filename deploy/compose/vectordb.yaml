@@ -26,6 +26,7 @@ services:
     # Comment out this section if CPU based image is used and set below env variables to False
     # export APP_VECTORSTORE_ENABLEGPUSEARCH=False
     # export APP_VECTORSTORE_ENABLEGPUINDEX=False
+    network_mode: "host"
     deploy:
       resources:
         reservations:
