@@ -12,6 +12,7 @@ services:
     volumes:
       - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/milvus:/var/lib/milvus
       - ${MILVUS_YAML}:/milvus/configs/milvus.yaml
+      - /etc/cufile.json:/etc/cufile.json
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
     #   interval: 30s
