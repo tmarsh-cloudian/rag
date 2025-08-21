@@ -15,6 +15,11 @@ services:
       # Mount the prompt.yaml file to the container, path should be absolute
       - ${PROMPT_CONFIG_FILE}:${PROMPT_CONFIG_FILE}
 
+    extra_hosts:
+      # Milvus uses host networking, so map the hostname "milvus", which is what's used in the
+      # pipeline, to docker's "host-gateway".
+      - milvus:host-gateway
+
     # Common customizations to the pipeline can be controlled using env variables
     environment:
       TMARSH_MODEL_NAME: ${LLM_NAME}

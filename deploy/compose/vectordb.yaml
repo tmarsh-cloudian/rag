@@ -13,9 +13,6 @@ services:
       - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/milvus:/var/lib/milvus
       - ${MILVUS_YAML}:/milvus/configs/milvus.yaml
       - /etc/cufile.json:/etc/cufile.json
-    devices:
-      - /dev/infiniband/uverbs0:/dev/infiniband/uverbs0
-      - /dev/infiniband/rdma_cm:/dev/infiniband/rdma_cm
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
     #   interval: 30s
