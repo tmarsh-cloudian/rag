@@ -230,7 +230,8 @@ class LLMConfig(ConfigWizard):
         "model_name",
         env=False,
         env_name="TMARSH_MODEL_NAME",
-        default="nvidia/llama-3.3-nemotron-super-49b-v1",
+        default="meta/llama-3.2-3b-instruct",
+        #default="nvidia/llama-3.3-nemotron-super-49b-v1",
         #default="nvidia/llama3.1-nemotron-nano-4b-v1.1",
         help_txt="The name of the hosted model.",
     )
