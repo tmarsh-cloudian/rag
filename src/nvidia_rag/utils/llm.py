@@ -29,6 +29,7 @@ from typing import Dict, Iterable
 from pathlib import Path
 from langchain.llms.base import LLM
 from langchain_nvidia_ai_endpoints import ChatNVIDIA
+import traceback
 
 logger = logging.getLogger(__name__)
 
@@ -81,6 +82,7 @@ def get_prompts() -> Dict:
 @lru_cache()
 def get_llm(**kwargs) -> LLM | SimpleChatModel:
     """Create the LLM connection."""
+    traceback.print_stack()
 
     settings = get_config()
 
