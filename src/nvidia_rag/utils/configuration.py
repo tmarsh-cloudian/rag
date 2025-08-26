@@ -254,6 +254,7 @@ class LLMConfig(ConfigWizard):
     )
 
     def get_model_parameters(self) -> dict:
+        print(f"257 {self.model_name}")
         """Return appropriate parameters based on the model name.
 
         Returns a dictionary with max_tokens, temperature, and top_p
