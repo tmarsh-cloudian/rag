@@ -161,6 +161,7 @@ class NvidiaRAG():
         """
 
         print(f"main.py 163 model name {model}")
+        print(f"main.py 163 config model name {CONFIG.llm.model_name}")
 
         # Validate boolean and float parameters
         use_knowledge_base = validate_use_knowledge_base(use_knowledge_base)
