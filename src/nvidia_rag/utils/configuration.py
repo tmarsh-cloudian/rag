@@ -228,7 +228,7 @@ class LLMConfig(ConfigWizard):
     )
     model_name: str = configfield(
         "model_name",
-        env=False,
+        #env=False,
         env_name="TMARSH_MODEL_NAME",
         default="meta/llama-3.2-3b-instruct",
         #default="nvidia/llama-3.3-nemotron-super-49b-v1",
@@ -254,7 +254,7 @@ class LLMConfig(ConfigWizard):
     )
 
     def get_model_parameters(self) -> dict:
-        print(f"257 {self.model_name}")
+        print(f"configuration.py 257 {self.model_name}")
         """Return appropriate parameters based on the model name.
 
         Returns a dictionary with max_tokens, temperature, and top_p

@@ -160,7 +160,7 @@ class NvidiaRAG():
             filter_expr: Filter expression to filter document from vector DB
         """
 
-        print(f"163 model name {model}")
+        print(f"main.py 163 model name {model}")
 
         # Validate boolean and float parameters
         use_knowledge_base = validate_use_knowledge_base(use_knowledge_base)

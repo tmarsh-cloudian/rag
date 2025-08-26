@@ -537,7 +537,7 @@ async def generate_answer(request: Request, prompt: Prompt) -> StreamingResponse
         # Convert messages to list of dicts
         messages_dict = [{'role': msg.role, 'content': msg.content} for msg in prompt.messages]
 
-        print(f"540 {prompt.model}")
+        print(f"server.py 540 {prompt.model}")
 
         # Get the streaming generator from NVIDIA_RAG.generate
         response_generator = NVIDIA_RAG.generate(
