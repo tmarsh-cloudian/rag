@@ -245,7 +245,7 @@ class ConfigWizard(JSONWizard, YAMLWizard):  # type: ignore[misc] # dataclass-wi
         if not isinstance(data, dict):
             raise RuntimeError("Configuration data is not a dictionary.")
 
-        print(f"wizard from_dict 248")
+        #print(f"wizard from_dict 248")
 
         # parse env variables
         for envvar in cls.envvars():

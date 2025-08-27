@@ -131,7 +131,7 @@ def get_llm(**kwargs) -> LLM | SimpleChatModel:
             logger.debug(f"Length of llm endpoint url string {url}")
             logger.info("Using llm model %s hosted at %s", kwargs.get('model'), url)
             return ChatNVIDIA(base_url=url,
-                              model=kwargs.get('model'),
+                              model="meta/llama-3.2-3b-instruct", #kwargs.get('model'),
                               temperature=kwargs.get('temperature', None),
                               top_p=kwargs.get('top_p', None),
                               max_tokens=kwargs.get('max_tokens', None))
