@@ -254,7 +254,7 @@ class ConfigWizard(JSONWizard, YAMLWizard):  # type: ignore[misc] # dataclass-wi
             if var_value:
                 var_value = try_json_load(var_value)
                 update_dict(data, conf_path, var_value)
-                print(f"wizard from_dict 258 {var_name}")
+                #print(f"wizard from_dict 258 {var_name}")
                 _LOGGER.debug(
                     "Found EnvVar Config - %s:%s = %s",
                     var_name,
