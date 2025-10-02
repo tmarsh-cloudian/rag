@@ -215,7 +215,8 @@ class ConfigWizard(JSONWizard, YAMLWizard):  # type: ignore[misc] # dataclass-wi
                 full_envname = custom_env_name
             else:
                 full_envname = f"{ENV_BASE}{env_parent}_{envname}"
-                print(f"LOOKFORTHIS 1{ENV_BASE}1 2{env_parent}2 3{envname}3 4{full_envname}4")
+
+            print(f"LOOKFORTHIS 1{ENV_BASE}1 2{env_parent}2 3{envname}3 4{full_envname}4 5{custom_env_name}5")
 
             is_embedded_config = hasattr(val.type, "envvars")
 
